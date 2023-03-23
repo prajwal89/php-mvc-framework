@@ -9,7 +9,11 @@ $app = new Application();
 $app->router->get('/home', 'home');
 
 $app->router->get('/contact', function () {
-    echo 'contact';
+    return view('contact')->with('foo', 'bar')->render();
+});
+
+$app->router->get('/admin/dashboard', function () {
+    return view('admin/dashboard')->render();
 });
 
 $app->router->get('/about-us', function () {
