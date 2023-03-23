@@ -34,22 +34,24 @@ class Router
             $callback = $this->allRoutes[$method][$path];
 
             if (is_string($callback)) {
-                //todo render view
                 return view($callback)->render();
             }
 
             if (is_array($callback)) {
-                //todo invoke controller method
-                return $callback;
+                // create an instance of the ContactController class
+                $controller = new $callback[0];
+
+                // call the getPage method on the controller instance
+                return $controller->{$callback[1]}();
             }
 
             if (is_callable($callback)) {
                 return call_user_func($callback);
             }
 
-            return "invalid Callback";
-        } else {
-            return $this->response->status(HttpStatusCode::NOT_FOUND);
+            return $this->response->status(HttpStatusCode::BAD_REQUEST);
         }
+
+        return $this->response->status(HttpStatusCode::NOT_FOUND);
     }
 }
