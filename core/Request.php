@@ -9,7 +9,16 @@ class Request
 {
     public function getPath()
     {
-        return $_SERVER['REQUEST_URI'];
+        $path = $_SERVER['REQUEST_URI'] ?? '/';
+
+        // get path without query string
+        $position = strpos($_SERVER['REQUEST_URI'], '?');
+
+        if (!$position) {
+            return $path;
+        }
+
+        return substr($_SERVER['REQUEST_URI'], 0, $position);
     }
 
     public function getMethod()
