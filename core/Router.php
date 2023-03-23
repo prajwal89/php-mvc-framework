@@ -34,7 +34,7 @@ class Router
 
             if (is_string($callback)) {
                 //todo render view
-                return (new View($callback))->renderView();
+                return view($callback)->with('foo', 'bar')->render();
             }
 
             if (is_array($callback)) {
