@@ -2,6 +2,7 @@
 
 namespace App\Core;
 
+use App\Core\Enums\HttpStatusCode;
 
 class Router
 {
@@ -48,7 +49,7 @@ class Router
 
             return "invalid Callback";
         } else {
-            $this->response->status(404);
+            $this->response->status(HttpStatusCode::NOT_FOUND);
             return ("$method:$path route does not exists");
         }
     }
