@@ -6,6 +6,8 @@ use App\Core\Application;
 
 $app = new Application();
 
+$app->router->get('/home', 'home');
+
 $app->router->get('/contact', function () {
     echo 'contact';
 });

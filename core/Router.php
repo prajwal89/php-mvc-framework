@@ -32,9 +32,34 @@ class Router
         if (isset($this->allRoutes[$method][$path])) {
             $callback = $this->allRoutes[$method][$path];
 
-            call_user_func($callback);
+            if (is_string($callback)) {
+                //todo render view
+                return $callback;
+            }
+
+            if (is_array($callback)) {
+                //todo invoke controller method
+                return $callback;
+            }
+
+            if (is_callable($callback)) {
+                return call_user_func($callback);
+            }
+
+            return "invalid Callback";
         } else {
             exit("$method:$path route does not exists");
+        }
+    }
+
+    public function renderView(string $callback)
+    {
+        $viewPath = __DIR__ . "./../views/$callback.php";
+
+        if (is_file($viewPath)) {
+            include_once  __DIR__ . "./../views/$callback.php";
+        } else {
+            exit("{$callback} view file not available");
         }
     }
 }
