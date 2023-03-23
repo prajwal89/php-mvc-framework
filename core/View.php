@@ -22,7 +22,7 @@ class View
     {
         $viewPath = self::VIEWS_BASE_DIR . "/$this->viewName.php";
 
-        // support for . notation fo view names
+        // support for dot notation fo view names
         if (str_contains($this->viewName, '.')) {
             $pathFromString = '/' . str_replace('.', '/', $this->viewName);
             $viewPath = self::VIEWS_BASE_DIR . "/$pathFromString.php";

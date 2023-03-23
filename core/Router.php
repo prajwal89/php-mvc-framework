@@ -8,7 +8,7 @@ class Router
     // collet all application routes
     protected $allRoutes = [];
 
-    public function __construct(public Request $request)
+    public function __construct(public Request $request, public Response $response)
     {
     }
 
@@ -48,7 +48,8 @@ class Router
 
             return "invalid Callback";
         } else {
-            exit("$method:$path route does not exists");
+            $this->response->status(404);
+            return ("$method:$path route does not exists");
         }
     }
 
