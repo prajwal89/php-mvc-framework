@@ -49,19 +49,7 @@ class Router
 
             return "invalid Callback";
         } else {
-            $this->response->status(HttpStatusCode::NOT_FOUND);
-            return ("$method:$path route does not exists");
+            return $this->response->status(HttpStatusCode::NOT_FOUND);
         }
     }
-
-    // public function renderView(string $callback)
-    // {
-    //     $viewPath = __DIR__ . "/../views/$callback.php";
-
-    //     if (is_file($viewPath)) {
-    //         include_once $viewPath;
-    //     } else {
-    //         exit("{$callback} view file not available");
-    //     }
-    // }
 }
