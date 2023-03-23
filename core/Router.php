@@ -34,7 +34,7 @@ class Router
 
             if (is_string($callback)) {
                 //todo render view
-                return $callback;
+                return (new View($callback))->renderView();
             }
 
             if (is_array($callback)) {
@@ -52,14 +52,14 @@ class Router
         }
     }
 
-    public function renderView(string $callback)
-    {
-        $viewPath = __DIR__ . "./../views/$callback.php";
+    // public function renderView(string $callback)
+    // {
+    //     $viewPath = __DIR__ . "/../views/$callback.php";
 
-        if (is_file($viewPath)) {
-            include_once  __DIR__ . "./../views/$callback.php";
-        } else {
-            exit("{$callback} view file not available");
-        }
-    }
+    //     if (is_file($viewPath)) {
+    //         include_once $viewPath;
+    //     } else {
+    //         exit("{$callback} view file not available");
+    //     }
+    // }
 }
