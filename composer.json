@@ -1,0 +1,14 @@
+{
+    "name": "prajwal89/php-mvc-framework",
+    "type": "project",
+    "license": "MIT",
+    "authors": [{
+        "name": "Prajwal Hallale"
+    }],
+    "autoload": {
+        "psr-4": {
+            "core\\": "./"
+        }
+    },
+    "require": {}
+}
