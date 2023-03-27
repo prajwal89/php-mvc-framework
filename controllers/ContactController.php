@@ -8,7 +8,7 @@ class ContactController
 {
     public function getPage()
     {
-        return view('contact')->render();
+        return view('contact')->layout('layouts.app')->render();
     }
 
     public function submit(Request $request)
