@@ -3,11 +3,11 @@
 namespace App\Core;
 
 /**
- * request made by client
+ * handle request made by client
  */
 class Request
 {
-    public function getPath()
+    public function getPath(): string
     {
         $path = $_SERVER['REQUEST_URI'] ?? '/';
 
@@ -21,7 +21,7 @@ class Request
         return substr($_SERVER['REQUEST_URI'], 0, $position);
     }
 
-    public function getMethod()
+    public function getMethod(): string
     {
         return strtolower($_SERVER['REQUEST_METHOD']);
     }
