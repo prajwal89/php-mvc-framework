@@ -43,11 +43,11 @@ class Router
                 $controller = new $callback[0];
 
                 // call the getPage method on the controller instance
-                return $controller->{$callback[1]}();
+                return $controller->{$callback[1]}($this->request);
             }
 
             if (is_callable($callback)) {
-                return call_user_func($callback);
+                return call_user_func($callback, $this->request);
             }
 
             return $this->response->status(HttpStatusCode::BAD_REQUEST);
