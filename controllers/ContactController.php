@@ -9,4 +9,10 @@ class ContactController
     {
         return view('contact')->render();
     }
+
+    public function submit()
+    {
+        echo 'Submitted';
+        // return view('contact')->render();
+    }
 }

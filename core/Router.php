@@ -33,6 +33,7 @@ class Router
         if (isset($this->allRoutes[$method][$path])) {
             $callback = $this->allRoutes[$method][$path];
 
+            //render view file from string
             if (is_string($callback)) {
                 return view($callback)->render();
             }
