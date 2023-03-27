@@ -2,6 +2,6 @@
 
 
 <form method="POST">
-    <input type="text">
+    <input type="text" name="name">
     <button type="submit">Submit</button>
 </form>

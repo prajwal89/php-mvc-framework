@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Core\Request;
 
 class ContactController
 {
@@ -10,8 +11,9 @@ class ContactController
         return view('contact')->render();
     }
 
-    public function submit()
+    public function submit(Request $request)
     {
+        print("<pre>" . print_r($request->getBody(), true) . "</pre>");
         echo 'Submitted';
         // return view('contact')->render();
     }
