@@ -14,7 +14,7 @@ class ContactController
     public function submit(Request $request)
     {
         $validated = $request->validate([
-            'email' => ['required', 'min:6'],
+            'email' => ['required', 'min:6', 'email'],
             'password' => 'required|min:6|max:20',
         ]);
 
