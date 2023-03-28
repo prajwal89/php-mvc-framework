@@ -13,8 +13,12 @@ class ContactController
 
     public function submit(Request $request)
     {
-        print("<pre>" . print_r($request->getBody(), true) . "</pre>");
-        echo 'Submitted';
-        // return view('contact')->render();
+        $validated = $request->validate([
+            'email' => ['required', 'min:6'],
+            'password' => 'required|min:6|max:20',
+        ]);
+
+        // print("<pre>" . print_r($validated, true) . "</pre>");
+        return view('contact')->layout('layouts.app')->render();
     }
 }
