@@ -1,3 +1,7 @@
+@section('title')
+Login
+@stop
+
 @section('content')
 <form method="POST">
     <div class="form-group">

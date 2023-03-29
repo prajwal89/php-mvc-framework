@@ -1,8 +1,12 @@
+@section('title')
+Register
+@stop
+
 @section('content')
 <form method="POST">
     <div class="form-group">
         <label for="name">Name</label>
-        <input type="email" class="form-control" id="name" name="name" placeholder="Enter name">
+        <input class="form-control" id="name" name="name" placeholder="Enter name">
     </div>
     <div class="form-group">
         <label for="exampleInputEmail1">Email address</label>
