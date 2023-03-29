@@ -12,12 +12,12 @@ class View
 
     public function __construct(public string $viewName)
     {
-        $this->viewPath = self::VIEWS_BASE_DIR . "/$this->viewName.php";
+        $this->viewPath = self::VIEWS_BASE_DIR . "/$this->viewName.view.php";
 
         // support for dot notation for view names
         if (str_contains($this->viewName, '.')) {
             $pathFromString = '/' . str_replace('.', '/', $this->viewName);
-            $this->viewPath = self::VIEWS_BASE_DIR . "$pathFromString.php";
+            $this->viewPath = self::VIEWS_BASE_DIR . "$pathFromString.view.php";
         }
     }
 
@@ -36,7 +36,11 @@ class View
     public function getLayoutContent(): ?string
     {
         $pathFromString = '/' . str_replace('.', '/', $this->layoutName);
-        $layoutPath = self::VIEWS_BASE_DIR . "/$pathFromString.php";
+        $layoutPath = self::VIEWS_BASE_DIR . "/$pathFromString.view.php";
+
+        if (!is_file($layoutPath)) {
+            exit("{$this->layoutName} layout not found");
+        }
 
         ob_start();
         include_once($layoutPath);
@@ -86,7 +90,7 @@ class View
                 return $layoutWithHydratedSectionsContent;
             }
         } else {
-            exit("{$this->viewName} view file not available");
+            exit("{$this->viewName} view not found");
         }
     }
 }
