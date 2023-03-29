@@ -4,19 +4,22 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 use App\Core\Application;
 use App\Controllers\ContactController;
-use App\Controllers\ArticleController;
+use App\Controllers\BlogController;
+use App\Controllers\AuthController;
 
 $app = new Application();
 
-$app->router->get('/', 'home');
+$app->router->get('/',  function () {
+    return view('home')->layout('layouts.app')->render();
+});
+
+$app->router->get('/login', [AuthController::class, 'loginPage']);
+$app->router->get('/register', [AuthController::class, 'registerPage']);
 
 $app->router->get('/contact', [ContactController::class, 'getPage']);
 $app->router->post('/contact', [ContactController::class, 'submit']);
 
-$app->router->get('/admin/dashboard', function () {
-    return view('admin.dashboard')->render();
-});
 
-$app->router->get('/article/{slug}', [ArticleController::class, 'index']);
+$app->router->get('/blog/{slug}', [BlogController::class, 'index']);
 
 $app->run();

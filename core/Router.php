@@ -64,7 +64,6 @@ class Router
                 }
 
                 if (is_callable($callback)) {
-                    var_dump($callback);
                     return call_user_func($callback);
                 }
 
