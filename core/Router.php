@@ -15,12 +15,28 @@ class Router
 
     public function get($path, $callback)
     {
-        $this->allRoutes['get'][$path] = $callback;
+        $pathPattern = preg_replace('/\{([a-zA-Z0-9_-]+)\}/', '([a-zA-Z0-9_-]+)', $path);
+        $pathPattern = str_replace('/', '\/', $pathPattern);
+
+        $this->allRoutes['get'][] = [
+            'original_path' => $path,
+            'is_dynamic' => preg_match('/\{([a-zA-Z0-9_-]+)\}/', $path),
+            'pattern' =>  $pathPattern,
+            'callback' =>  $callback,
+        ];
     }
 
     public function post($path, $callback)
     {
-        $this->allRoutes['post'][$path] = $callback;
+        $pathPattern = preg_replace('/\{([a-zA-Z0-9_-]+)\}/', '([a-zA-Z0-9_-]+)', $path);
+        $pathPattern = str_replace('/', '\/', $pathPattern);
+
+        $this->allRoutes['post'][] = [
+            'original_path' => $path,
+            'is_dynamic' => preg_match('/\{([a-zA-Z0-9_-]+)\}/', $path),
+            'pattern' =>  $pathPattern,
+            'callback' =>  $callback,
+        ];
     }
 
     //handle current request
@@ -29,28 +45,30 @@ class Router
         $path = $this->request->getPath();
         $method = $this->request->getMethod();
 
-        //check if current client request exists
-        if (isset($this->allRoutes[$method][$path])) {
-            $callback = $this->allRoutes[$method][$path];
+        foreach ($this->allRoutes[$method] as $route) {
+            $pattern = $route['pattern'];
+            $callback = $route['callback'];
 
-            //render view file from string
-            if (is_string($callback)) {
-                return view($callback)->render();
+            // check if current client request exists
+            if (preg_match("#^$pattern$#", $path, $matches)) {
+                // remove the first element from $matches, which is the entire matched string
+                array_shift($matches);
+
+                if (is_string($callback)) {
+                    return view($callback, $matches)->render();
+                }
+
+                if (is_array($callback)) {
+                    $controller = new $callback[0];
+                    return $controller->{$callback[1]}($this->request, ...$matches);
+                }
+
+                if (is_callable($callback)) {
+                    return call_user_func_array($callback, array_merge([$this->request], $matches));
+                }
+
+                return $this->response->status(HttpStatusCode::BAD_REQUEST);
             }
-
-            if (is_array($callback)) {
-                // create an instance of the ContactController class
-                $controller = new $callback[0];
-
-                // call the getPage method on the controller instance
-                return $controller->{$callback[1]}($this->request);
-            }
-
-            if (is_callable($callback)) {
-                return call_user_func($callback, $this->request);
-            }
-
-            return $this->response->status(HttpStatusCode::BAD_REQUEST);
         }
 
         return $this->response->status(HttpStatusCode::NOT_FOUND);
