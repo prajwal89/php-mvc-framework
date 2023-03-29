@@ -22,4 +22,9 @@ class Application
     {
         echo $this->router->resolve();
     }
+
+    public function runInConsole()
+    {
+        (new Console($_SERVER['argv']))->resolve();
+    }
 }
