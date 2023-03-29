@@ -52,12 +52,38 @@ class View
 
     public function render()
     {
+        $layoutContent = $this->getLayoutContent();
+        $viewContents = $this->getViewContents();
+
         if (is_file($this->viewPath)) {
             if (empty($this->layoutName)) {
                 include_once $this->viewPath;
             } else {
                 // render view with layout
-                return str_replace('@content', $this->getViewContents(), $this->getLayoutContent());
+                preg_match_all('/\@yield\s*\(\s*[\'"](.*)[\'"]\s*\)/', $layoutContent, $yieldMatches, PREG_SET_ORDER);
+
+                if (!isset($yieldMatches[0])) {
+                    exit("{$this->layoutName} layout has no yield blocks");
+                }
+
+                $layoutWithHydratedSectionsContent = $layoutContent;
+                foreach ($yieldMatches as $yieldMatch) {
+                    //check if view has correct @section block
+                    if (preg_match("/\@section\(\'" . $yieldMatch[1] . "\'\)(.*?)\@stop/s", $viewContents, $contentMatches)) {
+                        // echo $yieldMatch[1] . PHP_EOL;
+                        // echo $yieldMatch[1] . ' found in both layout and view';
+                        $sectionContent = $contentMatches[1];
+                        $layoutWithHydratedSectionsContent = preg_replace("/\@yield\s*\(\s*[\'\"]" . $yieldMatch[1] . "[\'\"]\s*\)/", $sectionContent, $layoutWithHydratedSectionsContent);
+
+                        //remove section block tags
+                    }
+                }
+
+                // remove unused yield blocks
+                $layoutWithHydratedSectionsContent = preg_replace('/\@yield\s*\(\s*[\'"](.*)[\'"]\s*\)/', '', $layoutWithHydratedSectionsContent);
+
+
+                return $layoutWithHydratedSectionsContent;
             }
         } else {
             exit("{$this->viewName} view file not available");

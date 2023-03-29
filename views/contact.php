@@ -1,3 +1,4 @@
+@section('content')
 <h1>Contact US</h1>
 <div class="container">
     <form method="POST" class="mx-auto px-10">
@@ -17,3 +18,8 @@
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 </div>
+@stop
+
+@section('title')
+sample title
+@stop
