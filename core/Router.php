@@ -64,7 +64,8 @@ class Router
                 }
 
                 if (is_callable($callback)) {
-                    return call_user_func_array($callback, array_merge([$this->request], $matches));
+                    var_dump($callback);
+                    return call_user_func($callback);
                 }
 
                 return $this->response->status(HttpStatusCode::BAD_REQUEST);

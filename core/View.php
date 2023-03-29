@@ -17,7 +17,7 @@ class View
         // support for dot notation for view names
         if (str_contains($this->viewName, '.')) {
             $pathFromString = '/' . str_replace('.', '/', $this->viewName);
-            $this->viewPath = self::VIEWS_BASE_DIR . "/$pathFromString.php";
+            $this->viewPath = self::VIEWS_BASE_DIR . "$pathFromString.php";
         }
     }
 
@@ -36,7 +36,7 @@ class View
     public function getLayoutContent(): ?string
     {
         $pathFromString = '/' . str_replace('.', '/', $this->layoutName);
-        $layoutPath = self::VIEWS_BASE_DIR . "$pathFromString.php";
+        $layoutPath = self::VIEWS_BASE_DIR . "/$pathFromString.php";
 
         ob_start();
         include_once($layoutPath);
@@ -50,16 +50,16 @@ class View
         return ob_get_clean();
     }
 
-    public function render()
+    public function render(): string
     {
-        $layoutContent = $this->getLayoutContent();
         $viewContents = $this->getViewContents();
 
         if (is_file($this->viewPath)) {
             if (empty($this->layoutName)) {
-                include_once $this->viewPath;
+                return $viewContents;
             } else {
                 // render view with layout
+                $layoutContent = $this->getLayoutContent();
                 preg_match_all('/\@yield\s*\(\s*[\'"](.*)[\'"]\s*\)/', $layoutContent, $yieldMatches, PREG_SET_ORDER);
 
                 if (!isset($yieldMatches[0])) {
