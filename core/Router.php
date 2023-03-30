@@ -8,6 +8,7 @@ class Router
 {
     // collet all application routes
     protected $allRoutes = [];
+    protected $allowedMethods = ['get', 'post'];
 
     public function __construct(public Request $request, public Response $response)
     {
@@ -37,6 +38,18 @@ class Router
             'pattern' =>  $pathPattern,
             'callback' =>  $callback,
         ];
+    }
+
+    public function match($methods, $path, $callback)
+    {
+        $diff = array_diff($methods, $this->allowedMethods);
+        if (empty($diff)) {
+            foreach ($methods as $method) {
+                $this->{$method}($path, $callback);
+            }
+        } else {
+            exit('In valid method in match function');
+        }
     }
 
     //handle current request

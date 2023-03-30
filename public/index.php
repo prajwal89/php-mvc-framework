@@ -14,7 +14,7 @@ $app->router->get('/',  function () {
 });
 
 $app->router->get('/login', [AuthController::class, 'loginPage']);
-$app->router->get('/register', [AuthController::class, 'registerPage']);
+$app->router->match(['get', 'post'], '/register', [AuthController::class, 'registerPage']);
 
 $app->router->get('/contact', [ContactController::class, 'getPage']);
 $app->router->post('/contact', [ContactController::class, 'submit']);
