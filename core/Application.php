@@ -11,8 +11,9 @@ class Application
     public $router;
 
     /**
-     * Create Application instances
+     * Create Application instance
      */
+
     function __construct()
     {
         $this->request = new Request();
