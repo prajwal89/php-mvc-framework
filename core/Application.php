@@ -2,6 +2,8 @@
 
 namespace App\Core;
 
+use \Dotenv\Dotenv;
+
 class Application
 {
     public $request;
@@ -16,6 +18,8 @@ class Application
         $this->request = new Request();
         $this->response = new Response();
         $this->router = new Router($this->request, $this->response);
+        $dotenv = Dotenv::createImmutable(dirname(__DIR__));
+        $dotenv->load();
     }
 
     public function run(): void
