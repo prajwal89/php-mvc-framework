@@ -5,8 +5,9 @@
 - Dynamic routing
 - Form validation
 - @section and @yield directive support for views
-- MySql Database support 
+- MySQL Database support 
 - Migrations
+- Models support
 
 **Run App**
 
