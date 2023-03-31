@@ -102,6 +102,36 @@ class ModelBase
         return $models;
     }
 
+    public static function find(array $values)
+    {
+        $model = new static();
+        $query = "SELECT * FROM " . $model->table . " WHERE ";
+
+        $conditions = [];
+        foreach ($values as $key => $value) {
+            $conditions[] = "{$key} = :{$key}";
+        }
+        $query .= implode(' AND ', $conditions) . " LIMIT 1";
+
+        $stmt = Database::connection()->prepare($query);
+        foreach ($values as $key => $value) {
+            $stmt->bindValue(":{$key}", $value);
+        }
+        $stmt->execute();
+        $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+        if (!$result) {
+            return null;
+        }
+
+        foreach ($result as $key => $value) {
+            $model->{$key} = $value;
+        }
+
+        return $model;
+    }
+
+
     public function __set($name, $value)
     {
         $this->data[$name] = $value;
