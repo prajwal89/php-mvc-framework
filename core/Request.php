@@ -16,6 +16,10 @@ class Request
 
     public $errorBag = [];
 
+    public function __construct(public Session $session)
+    {
+    }
+
     public function getPath(): string
     {
         $path = $_SERVER['REQUEST_URI'] ?? '/';
@@ -35,7 +39,7 @@ class Request
         return strtolower($_SERVER['REQUEST_METHOD']);
     }
 
-    public function validate(array $rules)
+    public function validate(array $rules): array|false
     {
         $validated = [];
         // todo handle wrong form fields and rules
@@ -101,14 +105,16 @@ class Request
                         break;
                     }
                 }
-            }
-
-            if (!$hasError) {
                 $validated[$formField] = $this->getBody()[$formField];
             }
         }
 
-        return $validated;
+        if (!$hasError) {
+            return $validated;
+        } else {
+            $this->session->setFlash(Session::VALIDATION_ERRORS, $this->errorBag);
+            return false;
+        }
     }
 
     public function getBody()

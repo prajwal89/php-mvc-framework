@@ -9,6 +9,8 @@ class Application
     public $request;
     public $response;
     public $router;
+    public $session;
+    public static $app;
 
     /**
      * Create Application instance
@@ -16,11 +18,13 @@ class Application
 
     function __construct()
     {
-        $this->request = new Request();
+        $this->session = new Session();
+        $this->request = new Request($this->session);
         $this->response = new Response();
         $this->router = new Router($this->request, $this->response);
         $dotenv = Dotenv::createImmutable(dirname(__DIR__));
         $dotenv->load();
+        self::$app = $this;
     }
 
     public function run(): void

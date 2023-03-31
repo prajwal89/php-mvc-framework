@@ -6,3 +6,10 @@ if (!function_exists('view')) {
         return new App\Core\View($viewName);
     }
 }
+
+if (!function_exists('session')) {
+    function session()
+    {
+        return App\Core\Application::$app->session;
+    }
+}
