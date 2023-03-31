@@ -84,7 +84,7 @@ enum HttpStatusCode: int
             case self::FORBIDDEN:
                 return 'Forbidden';
             case self::NOT_FOUND:
-                return 'Not Found';
+                return 'Requested Path or Method Not Found';
             case self::METHOD_NOT_ALLOWED:
                 return 'Method Not Allowed';
             case self::NOT_ACCEPTABLE:

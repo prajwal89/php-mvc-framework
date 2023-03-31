@@ -1,6 +1,6 @@
 ## A repository for studying MVC architecture
 
-### Features
+### Key Features
 
 - **MVC architecture:** The framework uses the Model-View-Controller (MVC) architectural pattern, which promotes separation of concerns and modularity in the application design.
 
