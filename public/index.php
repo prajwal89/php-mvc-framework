@@ -13,7 +13,7 @@ $app->router->get('/',  function () {
     return view('home')->layout('layouts.app')->render();
 });
 
-$app->router->get('/login', [AuthController::class, 'loginPage']);
+$app->router->match(['get', 'post'], '/login', [AuthController::class, 'loginPage']);
 $app->router->match(['get', 'post'], '/register', [AuthController::class, 'registerPage']);
 
 $app->router->get('/contact', [ContactController::class, 'getPage']);

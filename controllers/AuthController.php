@@ -4,11 +4,32 @@ namespace App\Controllers;
 
 use App\Core\Request;
 use App\Models\User;
+use App\Core\Facades\Hash;
 
 class AuthController
 {
     public function loginPage(Request $request)
     {
+        if ($request->getMethod() == 'post') {
+            $validated = $request->validate([
+                'email' => 'required|email',
+                'password' => 'required|min:6',
+            ]);
+
+            if ($validated) {
+                if (User::attempt([
+                    'email' => $validated['email'],
+                    'password' => Hash::make($validated['password'])
+                ])) {
+                    session()->setFlash('message', 'User Login successful');
+                    session()->setFlash('class', 'success');
+                } else {
+                    session()->setFlash('message', 'Incorrect credentials');
+                    session()->setFlash('class', 'danger');
+                };
+            }
+        }
+
         return view('auth.login')->layout('layouts.app')->render();
     }
 
@@ -22,9 +43,8 @@ class AuthController
             ]);
 
             if ($validated) {
-                $validated['password'] = password_hash($validated['password'], PASSWORD_DEFAULT);
+                $validated['password'] = Hash::make($validated['password']);
                 $user = User::create($validated);
-                print("<pre>" . print_r($user, true) . "</pre>");
                 session()->setFlash('message', 'User registration successful');
                 session()->setFlash('class', 'success');
             } else {
