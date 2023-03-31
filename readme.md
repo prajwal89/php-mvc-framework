@@ -17,6 +17,8 @@
 - **Models:** The framework provides support for models, allowing developers to represent and manipulate data as objects.
 
 - **Sessions:** The framework includes built-in support for managing user sessions, allowing developers to easily store and retrieve session data.
+  
+- **CLI interface** Console interface for creating Controllers
 
 **Run App**
 
