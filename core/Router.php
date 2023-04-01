@@ -16,23 +16,20 @@ class Router
 
     public function get($path, $callback)
     {
-        $pathPattern = preg_replace('/\{([a-zA-Z0-9_-]+)\}/', '([a-zA-Z0-9_-]+)', $path);
-        $pathPattern = str_replace('/', '\/', $pathPattern);
-
-        $this->allRoutes['get'][] = [
-            'original_path' => $path,
-            'is_dynamic' => preg_match('/\{([a-zA-Z0-9_-]+)\}/', $path),
-            'pattern' =>  $pathPattern,
-            'callback' =>  $callback,
-        ];
+        $this->addRoute('get', $path, $callback);
     }
 
     public function post($path, $callback)
     {
+        $this->addRoute('post', $path, $callback);
+    }
+
+    public function addRoute(string $method, string $path, $callback): void
+    {
         $pathPattern = preg_replace('/\{([a-zA-Z0-9_-]+)\}/', '([a-zA-Z0-9_-]+)', $path);
         $pathPattern = str_replace('/', '\/', $pathPattern);
 
-        $this->allRoutes['post'][] = [
+        $this->allRoutes[$method][] = [
             'original_path' => $path,
             'is_dynamic' => preg_match('/\{([a-zA-Z0-9_-]+)\}/', $path),
             'pattern' =>  $pathPattern,
