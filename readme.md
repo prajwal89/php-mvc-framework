@@ -18,11 +18,20 @@
 
 - **Sessions:** The framework includes built-in support for managing user sessions, allowing developers to easily store and retrieve session data.
   
-- **CLI interface** Console interface for creating Controllers
+- **CLI interface** Console interface for creating Controllers and models.
 
-**Run App**
+- **Middleware:** The framework supports middleware, allowing developers to add additional processing logic to requests before they are passed on to the application.
+
+- **Authentication:** The framework includes built-in authentication capabilities, making it easy to authenticate users and protect application routes.
+
+### Start the application
 
 ```bash
 cd public
 php -S localhost:1234
 ```
+
+### Documentation
+
+
+**Routing**

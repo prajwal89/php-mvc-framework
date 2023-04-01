@@ -8,6 +8,7 @@ use App\Core\Application;
 
 $app = new Application();
 
+
 $app->router->get('/',  function () {
     return view('home')->layout('layouts.app')->render();
 });
@@ -20,8 +21,6 @@ $app->router->post('/contact', [ContactController::class, 'submit']);
 
 $app->router->get('/blog/{slug}', [BlogController::class, 'index']);
 
-$app->router->get('/user/dashboard', [UserController::class, 'dashboard']);
+$app->router->middleware('auth')->get('/user/dashboard', [UserController::class, 'dashboard']);
 
 $app->run();
-
-// echo dump(Application::getInstanceCount());
