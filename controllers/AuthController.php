@@ -20,6 +20,7 @@ class AuthController
                 if (User::attempt($validated['email'], $validated['password'])) {
                     session()->setFlash('message', 'User Login successful');
                     session()->setFlash('class', 'success');
+                    return redirect('/user/dashboard');
                 } else {
                     session()->setFlash('message', 'Incorrect credentials');
                     session()->setFlash('class', 'danger');
