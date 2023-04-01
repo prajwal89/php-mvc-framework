@@ -17,10 +17,7 @@ class AuthController
             ]);
 
             if ($validated) {
-                if (User::attempt([
-                    'email' => $validated['email'],
-                    'password' => Hash::make($validated['password'])
-                ])) {
+                if (User::attempt($validated['email'], $validated['password'])) {
                     session()->setFlash('message', 'User Login successful');
                     session()->setFlash('class', 'success');
                 } else {

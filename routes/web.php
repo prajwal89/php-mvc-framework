@@ -3,6 +3,7 @@
 use App\Controllers\AuthController;
 use App\Controllers\BlogController;
 use App\Controllers\ContactController;
+use App\Controllers\UserController;
 use App\Core\Application;
 
 $app = new Application();
@@ -19,4 +20,8 @@ $app->router->post('/contact', [ContactController::class, 'submit']);
 
 $app->router->get('/blog/{slug}', [BlogController::class, 'index']);
 
+$app->router->get('/user/dashboard', [UserController::class, 'dashboard']);
+
 $app->run();
+
+// echo dump(Application::getInstanceCount());
