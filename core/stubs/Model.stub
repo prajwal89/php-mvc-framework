@@ -1,0 +1,13 @@
+<?php
+
+namespace [namespace];
+
+use App\Core\ModelBase;
+
+class [modelName] extends ModelBase
+{
+    protected $table = 'table_name';
+
+    protected $fillable = [
+    ];
+}

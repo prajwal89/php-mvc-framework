@@ -20,14 +20,34 @@ class Console
             exit($this->error('No arguments'));
         }
 
+        if ($this->args[1] == 'start') {
+            // Change to the public directory
+            $publicPath = realpath(__DIR__) . '\public';
+            // echo $publicPath;
+            // exit;
+            $output1 = shell_exec("cd $publicPath");
+            // print("<pre>" . print_r($output1, true) . "</pre>");
+            // Run command 2
+            $output2 = shell_exec('php -S localhost:1234');
+            // Start the PHP built-in web server
+            // exec('php -S localhost:1234');
+        }
+
         if ($this->args[1] == 'make:controller') {
             if (!isset($this->args[2])) {
                 exit($this->error('Controller name not specified'));
             }
-            $this->makeController($this->args[2]);
+            return $this->makeController($this->args[2]);
         }
 
-        return 'Something went wrong';
+        if ($this->args[1] == 'make:model') {
+            if (!isset($this->args[2])) {
+                exit($this->error('Model name not specified'));
+            }
+            return $this->makeModel($this->args[2]);
+        }
+
+        $this->error('Command not available');
     }
 
     private function makeController($controllerFullName)
@@ -37,8 +57,8 @@ class Console
         $this->info('Using stub file -> ' . $stubPath);
         $stubContent = file_get_contents($stubPath);
 
-        $controllerClassName = $this->getControllerName($controllerFullName);
-        $controllerNamespace = $this->getControllerNamespace($controllerFullName);
+        $controllerClassName = $this->getClassName($controllerFullName);
+        $controllerNamespace = $this->getNamespaceName($controllerFullName, 'App\Controllers');
 
         // replace placeholders
         $controllerFileContent = str_replace('[controllerName]', $controllerClassName, $stubContent);
@@ -52,6 +72,7 @@ class Console
             array_pop($parts);
             $dir = $basePath . '/' . implode('/', $parts);
             if (!is_dir($dir)) {
+                //make directories recursively
                 mkdir($dir, 0777, true);
             }
         } else {
@@ -69,7 +90,47 @@ class Console
         }
     }
 
-    private function getControllerName($string)
+    private function makeModel($modelFullName)
+    {
+        $this->info('Creating controller ' . $modelFullName);
+        $stubPath = realpath(__DIR__ . '/stubs/Model.stub');
+        $this->info('Using stub file -> ' . $stubPath);
+        $stubContent = file_get_contents($stubPath);
+
+        $modelClassName = $this->getClassName($modelFullName);
+        $modelNamespace = $this->getNamespaceName($modelFullName, 'App\Models');
+
+        // replace placeholders
+        $modelFileContent = str_replace('[modelName]', $modelClassName, $stubContent);
+        $modelFileContent = str_replace('[namespace]', $modelNamespace, $modelFileContent);
+
+        $basePath = realpath(__DIR__ . '/../models');
+
+        if (str_contains($modelFullName, '/')) {
+            $filePath = realpath(__DIR__ . '/../models') . '/' . $modelFullName . '.php';
+            $parts = explode('/', $modelFullName);
+            array_pop($parts);
+            $dir = $basePath . '/' . implode('/', $parts);
+            if (!is_dir($dir)) {
+                //make directories recursively
+                mkdir($dir, 0777, true);
+            }
+        } else {
+            $filePath = realpath(__DIR__ . '/../models') . '/' . $modelClassName . '.php';
+        }
+
+        if (is_file($filePath)) {
+            return $this->error("Model Already Exists ->" . $filePath);
+        }
+
+        if (@file_put_contents($filePath, $modelFileContent)) {
+            $this->success("Model Created ->" . $filePath);
+        } else {
+            $this->error('Invalid Model name');
+        }
+    }
+
+    private function getClassName($string)
     {
         if (str_contains($string, '/')) {
             return substr($string, strrpos($string, '/') + 1);
@@ -78,7 +139,7 @@ class Console
     }
 
 
-    private function getControllerNamespace(string $string, string $prefix = 'App\Controllers')
+    private function getNamespaceName(string $string, string $prefix)
     {
         if (str_contains($string, '/')) {
             $parts = explode('/', $string);
