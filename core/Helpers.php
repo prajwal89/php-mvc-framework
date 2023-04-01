@@ -13,3 +13,10 @@ if (!function_exists('session')) {
         return App\Core\Application::$app->session;
     }
 }
+
+if (!function_exists('redirect')) {
+    function redirect($path)
+    {
+        return App\Core\Application::$app->response->redirect($path);
+    }
+}

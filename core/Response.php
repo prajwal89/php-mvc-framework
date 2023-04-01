@@ -11,4 +11,9 @@ class Response
         http_response_code($code->value);
         return $code->getText();
     }
+
+    public function redirect($path)
+    {
+        header("Location: $path");
+    }
 }
