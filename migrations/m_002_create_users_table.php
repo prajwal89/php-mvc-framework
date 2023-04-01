@@ -2,9 +2,9 @@
 
 namespace App\Migrations;
 
-use App\Core\MigrationBase;
+use App\Core\Abstract\Migration;
 
-class m_002_create_users_table extends MigrationBase
+class m_002_create_users_table extends Migration
 {
     public function up()
     {

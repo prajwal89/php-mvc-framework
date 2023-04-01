@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Core;
+namespace App\Core\Abstract;
 
-class MigrationBase
+use App\Core\Database;
+
+abstract class Migration
 {
     public function run(string $sql)
     {

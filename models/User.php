@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
-use App\Core\ModelBase;
+use App\Core\Abstract\Model;
 use App\Core\Traits\Authenticatable;
 
-class User extends ModelBase
+class User extends Model
 {
     use Authenticatable;
 

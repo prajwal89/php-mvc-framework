@@ -2,9 +2,9 @@
 
 namespace [namespace];
 
-use App\Core\ModelBase;
+use App\Core\Abstract\Model;
 
-class [modelName] extends ModelBase
+class [modelName] extends Model
 {
     protected $table = 'table_name';
 

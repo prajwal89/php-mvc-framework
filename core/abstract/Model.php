@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Core;
+namespace App\Core\Abstract;
 
 use App\Core\Database;
 
-class ModelBase
+abstract class Model
 {
     protected $data = [];
 
