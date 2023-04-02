@@ -40,13 +40,12 @@ git clone https://github.com/prajwal89/php-mvc-framework.git
 php artisan start
 ```
 
-### Documentation
+
 
 
 ## Routing
-all web routes should be registered in routes/web.php
+All web routes should be registered in **routes/web.php**
 
-**Examples**
 Registering a route:
 ```php
 $app->router->get('/', function () {
@@ -75,10 +74,13 @@ Route with middleware
 $app->router->middleware('auth')->get('/user/dashboard', [UserController::class, 'dashboard']);
 ```
 
-Route that allows multiple HTTP methods:
+Route that allows multiple HTTP request on same path:
 ```php
 $app->router->match(['get', 'post'], '/contact', [ContactController::class, 'index']);
 ```
+
+
+
 
 
 ## Views
@@ -100,9 +102,13 @@ use with() method in chain to pass more variables
 return view('home')->with('foo',$bar)->render()
 ```
 
+
+
+
+
 ## Controllers
 
-To create a controller 
+Create a controller 
 ```bash
 php artisan make:controller UserController
 ```
@@ -113,6 +119,10 @@ You can also create controller in subfolder
 php artisan make:controller Admin/UserController
 ```
 this will create a controller ***/controllers/Admin/UserController.php***
+
+
+
+
 
 
 ## Models
@@ -143,7 +153,7 @@ class User extends Model
 ```
 
 **CRUD** operations
-Create
+Create\
 ```php
 use App\Models\User;
 
@@ -184,7 +194,21 @@ use App\Models\User;
 User::delete($userId);
 ```
 
+
+
+
 ## Database
+
+Set database connection in **.env** file
+```env
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=laravel
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+
 Access database directly
 
 ```php
