@@ -21,16 +21,7 @@ class Console
         }
 
         if ($this->args[1] == 'start') {
-            // Change to the public directory
-            $publicPath = realpath(__DIR__) . '\public';
-            // echo $publicPath;
-            // exit;
-            $output1 = shell_exec("cd $publicPath");
-            // print("<pre>" . print_r($output1, true) . "</pre>");
-            // Run command 2
-            $output2 = shell_exec('php -S localhost:1234');
-            // Start the PHP built-in web server
-            // exec('php -S localhost:1234');
+            shell_exec('php -S localhost:1234 -t "./public"');
         }
 
         if ($this->args[1] == 'make:controller') {

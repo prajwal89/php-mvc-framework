@@ -24,14 +24,18 @@
 
 - **Authentication:** The framework includes built-in authentication capabilities, making it easy to authenticate users and protect application routes.
 
-### Start the application
+
+## Requirements
+
+## Installation
+
+## Start the application
 
 ```bash
-cd public
-php -S localhost:1234
+php artisan start
 ```
 
-### Documentation
+## Documentation
 
 
 **Routing**
