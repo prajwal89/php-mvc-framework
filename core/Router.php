@@ -45,13 +45,13 @@ class Router
 
     public function match($methods, $path, $callback)
     {
-        $diff = array_diff($methods, $this->allowedMethods);
+        $diff = array_diff(array_map('strtolower', $methods), $this->allowedMethods);
         if (empty($diff)) {
             foreach ($methods as $method) {
                 $this->{$method}($path, $callback);
             }
         } else {
-            exit('In valid method in match function');
+            exit('Invalid method in match function');
         }
     }
 
@@ -102,7 +102,7 @@ class Router
                 }
 
                 if (is_callable($callback)) {
-                    return call_user_func($callback);
+                    return call_user_func($callback, ...$matches);
                 }
 
                 return $this->response->status(HttpStatusCode::BAD_REQUEST);
