@@ -184,6 +184,27 @@ use App\Models\User;
 User::delete($userId);
 ```
 
+## Database
+Access database directly
+
+```php
+use App\Core\Database;
+
+// raw queries
+Database::query("DELETE FROM users WHERE id = ?", [123]);
+
+// select
+Database::select("SELECT * FROM users WHERE status = ?", [1]);
+
+// update
+Database::update("UPDATE users SET name = ? WHERE id = ?", ['John Doe', 123]);
+
+// delete
+Database::delete("DELETE FROM users WHERE id = ?", [123]);
+
+// create
+Database::create("INSERT INTO users (name, email) VALUES (?, ?)", ['John Doe', 'john@example.com']);
+```
 
 ## License
 This package is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
