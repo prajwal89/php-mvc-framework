@@ -32,6 +32,8 @@
 ## Installation
 ```bash
 git clone https://github.com/prajwal89/php-mvc-framework.git
+cd php-mvc-framework
+composer install
 ```
 
 ## Start the application
