@@ -3,6 +3,7 @@
 namespace App\Core;
 
 use App\Core\Traits\CliMessage;
+use Symfony\Component\VarDumper\Cloner\Data;
 
 class Console
 {
@@ -36,6 +37,10 @@ class Console
                 exit($this->error('Model name not specified'));
             }
             return $this->makeModel($this->args[2]);
+        }
+
+        if ($this->args[1] == 'migrate') {
+            return $this->runMigrations();
         }
 
         $this->error('Command not available');
@@ -140,5 +145,51 @@ class Console
             $namespace =  $prefix;
         }
         return $namespace;
+    }
+
+    public function runMigrations()
+    {
+        //* check if migrations table is available
+        $migrationTable = Database::query("SELECT * FROM information_schema.tables WHERE table_schema = ? AND table_name = 'migrations' ", [$_ENV['DB_DATABASE']]);
+
+        if (!isset($migrationTable[0])) {
+            $this->info('Creating migrations table');
+            $migrationTableClass = 'App\Migrations\m_001_create_migration_table';
+            (new $migrationTableClass())->up();
+            $this->success('Migrations table imported to database');
+        }
+
+        // run remaining migrations
+        $importedMigrationsFileNames = array_map(function ($item) {
+            return $item['migration'];
+        }, Database::select('select migration from migrations'));
+
+
+        // all migrations in migrations folder
+        $migrationFiles = glob('migrations/*.php');
+        $isMigratedSomething = false;
+        foreach ($migrationFiles as $migrationFile) {
+            $pos = strrpos($migrationFile, '/');
+            // Get everything after the last slash
+            $migrationFileName = substr($migrationFile, $pos + 1);
+            $migrationFileName = str_replace('.php', '', $migrationFileName);
+
+            // skip migrations that are already imported
+            if (in_array($migrationFileName, $importedMigrationsFileNames)) {
+                continue;
+            }
+            $this->info("Running $migrationFileName migration");
+
+            $migrationTableClass = "App\\Migrations\\$migrationFileName";
+            (new $migrationTableClass())->up();
+            $this->success("$migrationFileName has been migrated");
+            $isMigratedSomething = true;
+        }
+
+        if ($isMigratedSomething) {
+            $this->success('All migration are migrated');
+        } else {
+            $this->success('Migrations are upto date');
+        }
     }
 }
