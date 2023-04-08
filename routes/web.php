@@ -8,8 +8,7 @@ use App\Core\Application;
 
 $app = new Application();
 
-
-$app->router->get('/',  function () {
+$app->router->get('/', function () {
     return view('home')->layout('layouts.app')->render();
 });
 

@@ -2,9 +2,9 @@
 
 namespace App\Controllers;
 
+use App\Core\Facades\Hash;
 use App\Core\Request;
 use App\Models\User;
-use App\Core\Facades\Hash;
 
 class AuthController
 {
@@ -20,11 +20,12 @@ class AuthController
                 if (User::attempt($validated['email'], $validated['password'])) {
                     session()->setFlash('message', 'User Login successful');
                     session()->setFlash('class', 'success');
+
                     return redirect('/user/dashboard');
                 } else {
                     session()->setFlash('message', 'Incorrect credentials');
                     session()->setFlash('class', 'danger');
-                };
+                }
             }
         }
 

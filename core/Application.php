@@ -2,21 +2,24 @@
 
 namespace App\Core;
 
-use \Dotenv\Dotenv;
+use Dotenv\Dotenv;
 
 class Application
 {
     public $request;
+
     public $response;
+
     public $router;
+
     public $session;
+
     public static $app;
 
     /**
      * Create Application instance
      */
-
-    function __construct()
+    public function __construct()
     {
         $this->session = new Session();
         $this->request = new Request($this->session);

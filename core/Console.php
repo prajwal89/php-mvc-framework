@@ -3,7 +3,6 @@
 namespace App\Core;
 
 use App\Core\Traits\CliMessage;
-use Symfony\Component\VarDumper\Cloner\Data;
 
 class Console
 {
@@ -29,6 +28,7 @@ class Console
             if (!isset($this->args[2])) {
                 exit($this->error('Controller name not specified'));
             }
+
             return $this->makeController($this->args[2]);
         }
 
@@ -36,6 +36,7 @@ class Console
             if (!isset($this->args[2])) {
                 exit($this->error('Model name not specified'));
             }
+
             return $this->makeModel($this->args[2]);
         }
 
@@ -43,6 +44,7 @@ class Console
             if (!isset($this->args[2])) {
                 exit($this->error('Migration name not specified'));
             }
+
             return $this->makeMigration($this->args[2]);
         }
 
@@ -83,11 +85,11 @@ class Console
         }
 
         if (is_file($filePath)) {
-            return $this->error("Controller Already Exists ->" . $filePath);
+            return $this->error('Controller Already Exists ->' . $filePath);
         }
 
         if (@file_put_contents($filePath, $controllerFileContent)) {
-            $this->success("Controller Created ->" . $filePath);
+            $this->success('Controller Created ->' . $filePath);
         } else {
             $this->error('Invalid controller name');
         }
@@ -123,11 +125,11 @@ class Console
         }
 
         if (is_file($filePath)) {
-            return $this->error("Model Already Exists ->" . $filePath);
+            return $this->error('Model Already Exists ->' . $filePath);
         }
 
         if (@file_put_contents($filePath, $modelFileContent)) {
-            $this->success("Model Created ->" . $filePath);
+            $this->success('Model Created ->' . $filePath);
         } else {
             $this->error('Invalid Model name');
         }
@@ -149,11 +151,11 @@ class Console
         $filePath = realpath(__DIR__ . '/../migrations') . '/' . $currentMigrationFileName . '.php';
 
         if (is_file($filePath)) {
-            return $this->error("Migration Already Exists ->" . $filePath);
+            return $this->error('Migration Already Exists ->' . $filePath);
         }
 
         if (@file_put_contents($filePath, $migrationFileContent)) {
-            $this->success("Migration Created ->" . $filePath);
+            $this->success('Migration Created ->' . $filePath);
         } else {
             $this->error('Invalid Migration name');
         }
@@ -164,9 +166,9 @@ class Console
         if (str_contains($string, '/')) {
             return substr($string, strrpos($string, '/') + 1);
         }
+
         return $string;
     }
-
 
     private function getNamespaceName(string $string, string $prefix)
     {
@@ -175,8 +177,9 @@ class Console
             array_pop($parts);
             $namespace = $prefix . '\\' . implode('\\', $parts);
         } else {
-            $namespace =  $prefix;
+            $namespace = $prefix;
         }
+
         return $namespace;
     }
 
@@ -196,7 +199,6 @@ class Console
         $importedMigrationsFileNames = array_map(function ($item) {
             return $item['migration'];
         }, Database::select('select migration from migrations'));
-
 
         // all migrations in migrations folder
         $migrationFiles = glob('migrations/*.php');

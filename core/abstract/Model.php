@@ -20,7 +20,7 @@ abstract class Model
             exit($diff[0] . ' cannot be inserted b.c it is not fillable');
         }
 
-        $sql = "INSERT INTO `$model->table` (" . implode(",", array_keys($values)) . ") VALUES (:" . implode(",:", array_keys($values)) . ")";
+        $sql = "INSERT INTO `$model->table` (" . implode(',', array_keys($values)) . ') VALUES (:' . implode(',:', array_keys($values)) . ')';
 
         $stmt = Database::connection()->prepare($sql);
 
@@ -54,7 +54,7 @@ abstract class Model
         foreach ($values as $key => $value) {
             $setValues[] = "$key = :$key";
         }
-        $sql = "UPDATE " . $model->table . " SET " . implode(",", $setValues) . " WHERE id=:id";
+        $sql = 'UPDATE ' . $model->table . ' SET ' . implode(',', $setValues) . ' WHERE id=:id';
 
         $stmt = Database::connection()->prepare($sql);
 
@@ -62,7 +62,7 @@ abstract class Model
             $stmt->bindValue(":$key", $value);
         }
 
-        $stmt->bindValue(":id", $id);
+        $stmt->bindValue(':id', $id);
 
         return $stmt->execute();
     }
@@ -72,11 +72,11 @@ abstract class Model
     {
         $model = new static();
 
-        $sql = "DELETE FROM " . $model->table . " WHERE id=:id";
+        $sql = 'DELETE FROM ' . $model->table . ' WHERE id=:id';
 
         $stmt = Database::connection()->prepare($sql);
 
-        $stmt->bindValue(":id", $id);
+        $stmt->bindValue(':id', $id);
 
         return $stmt->execute();
     }
@@ -84,7 +84,7 @@ abstract class Model
     public static function all()
     {
         $model = new static();
-        $query = "SELECT * FROM " . $model->table;
+        $query = 'SELECT * FROM ' . $model->table;
         $stmt = Database::connection()->prepare($query);
         $stmt->execute();
         $results = $stmt->fetchAll(\PDO::FETCH_ASSOC);
@@ -105,13 +105,13 @@ abstract class Model
     public static function find(array $values)
     {
         $model = new static();
-        $query = "SELECT * FROM " . $model->table . " WHERE ";
+        $query = 'SELECT * FROM ' . $model->table . ' WHERE ';
 
         $conditions = [];
         foreach ($values as $key => $value) {
             $conditions[] = "{$key} = :{$key}";
         }
-        $query .= implode(' AND ', $conditions) . " LIMIT 1";
+        $query .= implode(' AND ', $conditions) . ' LIMIT 1';
 
         $stmt = Database::connection()->prepare($query);
         foreach ($values as $key => $value) {
@@ -130,7 +130,6 @@ abstract class Model
 
         return $model;
     }
-
 
     public function __set($name, $value)
     {

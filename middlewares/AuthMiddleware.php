@@ -11,6 +11,7 @@ class AuthMiddleware extends Middleware
         if (isset($_SESSION['user_id'])) {
             return true;
         }
+
         return false;
     }
 }

@@ -8,6 +8,10 @@ class UserController
 {
     public function dashboard(Request $request)
     {
-        return view('user.dashboard')->render();
+        session()->setFlash('message', 'User Login successful');
+        session()->setFlash('class', 'success');
+        dump($_SESSION);
+
+        return view('user.dashboard')->layout('layouts.app')->render();
     }
 }

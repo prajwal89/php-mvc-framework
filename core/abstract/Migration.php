@@ -19,7 +19,7 @@ abstract class Migration
         //todo find other way
         $backtrace = debug_backtrace();
         $caller = isset($backtrace[1]['function']) ? $backtrace[1]['function'] : 'unknown';
-        $migrationName  = basename(get_called_class());
+        $migrationName = basename(get_called_class());
 
         if ($caller == 'up') {
             //* record migration record

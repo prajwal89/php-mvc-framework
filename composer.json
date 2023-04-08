@@ -18,6 +18,7 @@
         "vlucas/phpdotenv": "^5.5"
     },
     "require-dev": {
-        "symfony/var-dumper": "^6.2"
+        "symfony/var-dumper": "^6.2",
+        "laravel/pint": "^1.8"
     }
 }

@@ -2,8 +2,7 @@
 
 namespace App\Core\Abstract;
 
-
 abstract class Middleware
 {
-    public abstract function handle();
+    abstract public function handle();
 }
