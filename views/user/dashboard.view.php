@@ -6,3 +6,11 @@ if (isset($_SESSION['user_id'])) {
     // header('Location: dashboard.php');
     // exit();
 }
+?>
+
+@section('title')
+User DashBoard
+@stop
+
+@section('content')
+@stop

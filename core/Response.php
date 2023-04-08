@@ -9,6 +9,7 @@ class Response
     public function status(HttpStatusCode $code)
     {
         http_response_code($code->value);
+
         return $code->getText();
     }
 

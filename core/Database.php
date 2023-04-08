@@ -4,17 +4,16 @@ namespace App\Core;
 
 class Database
 {
-
     private static $conn;
 
     public static function connection()
     {
         if (!self::$conn) {
             try {
-                self::$conn = new  \PDO("mysql:host=" . $_ENV['DB_HOST'] . ";dbname=" . $_ENV['DB_DATABASE'] . "", $_ENV['DB_USERNAME'], $_ENV['DB_PASSWORD']);
+                self::$conn = new \PDO('mysql:host=' . $_ENV['DB_HOST'] . ';dbname=' . $_ENV['DB_DATABASE'] . '', $_ENV['DB_USERNAME'], $_ENV['DB_PASSWORD']);
                 self::$conn->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
             } catch (\PDOException $e) {
-                echo "Connection failed: " . $e->getMessage();
+                echo 'Connection failed: ' . $e->getMessage();
             }
         }
 
@@ -41,6 +40,7 @@ class Database
     {
         $stmt = self::connection()->prepare($query);
         $stmt->execute($bindings);
+
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 
@@ -48,6 +48,7 @@ class Database
     {
         $stmt = self::connection()->prepare($query);
         $stmt->execute($bindings);
+
         return $stmt->rowCount();
     }
 
@@ -55,6 +56,7 @@ class Database
     {
         $stmt = self::connection()->prepare($query);
         $stmt->execute($bindings);
+
         return $stmt->rowCount();
     }
 
@@ -62,6 +64,7 @@ class Database
     {
         $stmt = self::connection()->prepare($query);
         $stmt->execute($bindings);
+
         return $stmt->rowCount();
     }
 

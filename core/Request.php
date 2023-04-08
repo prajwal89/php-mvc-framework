@@ -63,6 +63,7 @@ class Request
 
                 if (!in_array($ruleName, $this->allowedRules)) {
                     echo "Rule {$ruleName} not allowed";
+
                     continue;
                 }
 
@@ -84,7 +85,7 @@ class Request
 
                 if ($ruleName == 'min') {
                     if (strlen($inputValue) < trim($ruleValue)) {
-                        $this->errorBag[$formField][] = "{{$formField}} should have minimum " . trim($ruleValue) . " length";
+                        $this->errorBag[$formField][] = "{{$formField}} should have minimum " . trim($ruleValue) . ' length';
                         $hasError = true;
                         break;
                     }
@@ -92,7 +93,7 @@ class Request
 
                 if ($ruleName == 'max') {
                     if (strlen($inputValue) > trim($ruleValue)) {
-                        $this->errorBag[$formField][] = "{{$formField}} should have maximum " . trim($ruleValue) . " length";
+                        $this->errorBag[$formField][] = "{{$formField}} should have maximum " . trim($ruleValue) . ' length';
                         $hasError = true;
                         break;
                     }
@@ -113,6 +114,7 @@ class Request
             return $validated;
         } else {
             $this->session->setFlash(Session::VALIDATION_ERRORS, $this->errorBag);
+
             return false;
         }
     }

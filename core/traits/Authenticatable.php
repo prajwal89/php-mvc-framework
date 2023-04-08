@@ -2,8 +2,8 @@
 
 namespace App\Core\Traits;
 
-use App\Core\Session;
 use App\Core\Abstract\Model;
+use App\Core\Session;
 
 trait Authenticatable
 {
@@ -17,6 +17,7 @@ trait Authenticatable
 
         if (password_verify($password, $user->password)) {
             self::login($user, $remember);
+
             return $user;
         }
 

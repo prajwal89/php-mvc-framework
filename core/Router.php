@@ -8,7 +8,9 @@ class Router
 {
     // collet all application routes
     protected $allRoutes = [];
+
     protected $allowedMethods = ['get', 'post'];
+
     public $middleware = null;
 
     public function __construct(public Request $request, public Response $response)
@@ -18,12 +20,14 @@ class Router
     public function get($path, $callback)
     {
         $this->addRoute('get', $path, $callback);
+
         return $this;
     }
 
     public function post($path, $callback)
     {
         $this->addRoute('post', $path, $callback);
+
         return $this;
     }
 
@@ -35,9 +39,9 @@ class Router
         $this->allRoutes[$method][] = [
             'original_path' => $path,
             'is_dynamic' => preg_match('/\{([a-zA-Z0-9_-]+)\}/', $path),
-            'pattern' =>  $pathPattern,
-            'callback' =>  $callback,
-            'middleware' =>  $this->middleware,
+            'pattern' => $pathPattern,
+            'callback' => $callback,
+            'middleware' => $this->middleware,
         ];
 
         $this->middleware = null;
@@ -55,14 +59,14 @@ class Router
         }
     }
 
-
     public function middleware($middleware)
     {
-        $middlewareRegistry = include(dirname(__DIR__) . '/middlewares/Registry.php');
+        $middlewareRegistry = include dirname(__DIR__) . '/middlewares/Registry.php';
         if (!in_array($middleware, array_keys($middlewareRegistry))) {
             exit("Middleware {$middleware} is not registered");
         }
         $this->middleware = $middlewareRegistry[$middleware];
+
         return $this;
     }
 
@@ -98,6 +102,7 @@ class Router
 
                 if (is_array($callback)) {
                     $controller = new $callback[0];
+
                     return $controller->{$callback[1]}($this->request, ...$matches);
                 }
 

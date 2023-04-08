@@ -2,12 +2,14 @@
 
 namespace App\Core;
 
-
 class View
 {
-    protected const VIEWS_BASE_DIR = __DIR__ . "/../views";
+    protected const VIEWS_BASE_DIR = __DIR__ . '/../views';
+
     public $viewData = [];
+
     public $viewPath;
+
     public $layoutName = null;
 
     public function __construct(public string $viewName)
@@ -24,12 +26,14 @@ class View
     public function with($key, $value)
     {
         $this->viewData[$key] = $value;
+
         return $this;
     }
 
     public function layout($layoutName)
     {
         $this->layoutName = $layoutName;
+
         return $this;
     }
 
@@ -43,14 +47,16 @@ class View
         }
 
         ob_start();
-        include_once($layoutPath);
+        include_once $layoutPath;
+
         return ob_get_clean();
     }
 
     public function getViewContents()
     {
         ob_start();
-        include_once($this->viewPath);
+        include_once $this->viewPath;
+
         return ob_get_clean();
     }
 
@@ -85,7 +91,6 @@ class View
 
                 // remove unused yield blocks
                 $layoutWithHydratedSectionsContent = preg_replace('/\@yield\s*\(\s*[\'"](.*)[\'"]\s*\)/', '', $layoutWithHydratedSectionsContent);
-
 
                 return $layoutWithHydratedSectionsContent;
             }
