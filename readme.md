@@ -232,5 +232,48 @@ Database::delete("DELETE FROM users WHERE id = ?", [123]);
 Database::create("INSERT INTO users (name, email) VALUES (?, ?)", ['John Doe', 'john@example.com']);
 ```
 
+## Migrations
+
+To create a migration 
+```bash
+php artisan make:migration create_categories_table
+```
+this will create a migration file ***/migrations/m_003_create_categories_table.php***
+
+**Example of migration file**
+```php
+
+class m_003_create_categories_table extends Migration
+{
+    public function up()
+    {
+        // define mig
+        $sql = 'CREATE TABLE categories (
+            id INT(11) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+            name VARCHAR(255) NOT NULL,
+            slug VARCHAR(255) NOT NULL,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+        );';
+
+        $this->run($sql);
+    }
+
+    public function down()
+    {
+        $this->run('DROP TABLE categories');
+    }
+}
+```
+
+
+run migrations
+```bash
+php artisan migrate
+```
+this will run all  unmigrated migrations
+
+
+
 ## License
 This package is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).

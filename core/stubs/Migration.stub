@@ -1,0 +1,19 @@
+<?php
+
+namespace App\Migrations;
+
+use App\Core\Abstract\Migration;
+
+class [migrationName] extends Migration
+{
+    public function up()
+    {
+        $sql = '';
+        $this->run($sql);
+    }
+
+    public function down()
+    {
+        $this->run('');
+    }
+}

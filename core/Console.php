@@ -39,6 +39,13 @@ class Console
             return $this->makeModel($this->args[2]);
         }
 
+        if ($this->args[1] == 'make:migration') {
+            if (!isset($this->args[2])) {
+                exit($this->error('Migration name not specified'));
+            }
+            return $this->makeMigration($this->args[2]);
+        }
+
         if ($this->args[1] == 'migrate') {
             return $this->runMigrations();
         }
@@ -123,6 +130,32 @@ class Console
             $this->success("Model Created ->" . $filePath);
         } else {
             $this->error('Invalid Model name');
+        }
+    }
+
+    private function makeMigration($migrationName)
+    {
+        // todo what if migrations are deleted manually
+        $this->info('Creating migration ' . $migrationName);
+        $stubPath = realpath(__DIR__ . '/stubs/Migration.stub');
+        $this->info('Using stub file -> ' . $stubPath);
+        $stubContent = file_get_contents($stubPath);
+
+        $totalMigrations = count(glob('migrations/*.php'));
+        $currentMigrationFileName = 'm_' . str_pad($totalMigrations + 1, 3, '0', STR_PAD_LEFT) . '_' . $migrationName;
+
+        $migrationFileContent = str_replace('[migrationName]', $currentMigrationFileName, $stubContent);
+
+        $filePath = realpath(__DIR__ . '/../migrations') . '/' . $currentMigrationFileName . '.php';
+
+        if (is_file($filePath)) {
+            return $this->error("Migration Already Exists ->" . $filePath);
+        }
+
+        if (@file_put_contents($filePath, $migrationFileContent)) {
+            $this->success("Migration Created ->" . $filePath);
+        } else {
+            $this->error('Invalid Migration name');
         }
     }
 
