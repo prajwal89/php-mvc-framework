@@ -6,16 +6,24 @@ use App\Core\Database;
 
 abstract class Model
 {
+    // array to store model data
     protected $data = [];
 
-    // insert record and return model instance
-    public static function create(array $values)
+    /**
+     * insert record and return model instance
+     *
+     * @param array $values
+     * @return self
+     */
+    public static function create(array $values): self
     {
-        // get child model
+        //late static binding
         $model = new static();
 
+        // check for non-fillable keys
         $diff = array_diff(array_keys($values), $model->fillable);
 
+        // exit if non-fillable keys are found
         if (count($diff) > 0) {
             exit($diff[0] . ' cannot be inserted b.c it is not fillable');
         }
@@ -28,7 +36,7 @@ abstract class Model
             $stmt->bindValue(":$key", $value);
         }
 
-        // assign dynamic properties to child model
+        // assign dynamic properties to model
         if ($stmt->execute()) {
             $lastInsertId = Database::connection()->lastInsertId();
             $query = "SELECT * FROM `$model->table` WHERE id=:id";
@@ -44,10 +52,15 @@ abstract class Model
         return $model;
     }
 
-    // update record and return boolean
-    public static function update($id, array $values): bool
+    /**
+     * update record and return boolean
+     *
+     * @param integer $id
+     * @param array $values
+     * @return boolean
+     */
+    public static function update(int $id, array $values): bool
     {
-        // get child model
         $model = new static();
 
         $setValues = [];
@@ -67,8 +80,14 @@ abstract class Model
         return $stmt->execute();
     }
 
-    // delete record and return boolean
-    public static function delete($id): bool
+
+    /**
+     * delete record and return boolean
+     *
+     * @param integer $id
+     * @return boolean
+     */
+    public static function delete(int $id): bool
     {
         $model = new static();
 
@@ -81,7 +100,12 @@ abstract class Model
         return $stmt->execute();
     }
 
-    public static function all()
+    /**
+     * get all records and return array of model instances
+     *
+     * @return array
+     */
+    public static function all(): array
     {
         $model = new static();
         $query = 'SELECT * FROM ' . $model->table;
